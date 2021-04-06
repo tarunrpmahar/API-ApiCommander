@@ -14,6 +14,28 @@ namespace ApiLearning.Data
         {
             _context = context;
         }
+
+        public void CreateCommand(Command cmd)
+        {
+            if(cmd==null)
+            {
+                throw new ArgumentNullException(nameof(cmd));
+            }
+
+            _context.tblCommands.Add(cmd);
+        }
+
+        public void DeleteCommand(Command cmd)
+        {
+            if (cmd == null)
+            {
+                throw new ArgumentNullException(nameof(cmd));
+            }
+
+            _context.tblCommands.Remove(cmd);
+            //_context.SaveChanges();
+        }
+
         public IEnumerable<Command> GetAllCommand()
         {
             return _context.tblCommands.ToList();
@@ -22,6 +44,16 @@ namespace ApiLearning.Data
         public Command GetCommandById(int id)
         {
             return _context.tblCommands.FirstOrDefault(p => p.Id == id);
+        }
+
+        public bool SaveChanges()
+        {
+            return (_context.SaveChanges()>=0);
+        }
+
+        public void UpdateCommand(Command cmd)
+        {
+            //Nothing
         }
     }
 }

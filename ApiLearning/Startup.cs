@@ -1,7 +1,9 @@
+using ApiLearning.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,10 +30,17 @@ namespace ApiLearning
         {
 
             services.AddControllers();
+
+            services.AddDbContext<CommanderContext>(opt => opt.UseSqlServer
+            (Configuration.GetConnectionString("CommanderConnection")));
+
+            //services.AddScoped<ICommanderRepo, CommanderRepo>();
+            services.AddScoped<ICommanderRepo, SqlCommanderRepo>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ApiLearning", Version = "v1" });
-            });
+            });          
         }
 
         //setup request pipeline

@@ -51,13 +51,14 @@ namespace ApiLearning.Controllers
         [HttpPost]
         public ActionResult <CommandReadDto> CreateCommand(CommandCreateDto commandCreateDto)
         {
-            var commandModel = _mapper.Map<Command>(commandCreateDto);
+                                          // destination - source
+            var commandModel = _mapper.Map<Command>(commandCreateDto);    // it will map object from CommandCreateDto -> Command
             _repo.CreateCommand(commandModel);
             _repo.SaveChanges();
 
             var commandReadDto = _mapper.Map<CommandReadDto>(commandModel);
 
-            //creates a new filed in postman with name Location 
+            //creates a new field in postman with name Location 
             return CreatedAtRoute(nameof(GetCommandById), new { Id= commandReadDto.Id}, commandReadDto);
             //return Ok(commandReadDto);
         }
